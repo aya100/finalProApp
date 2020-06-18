@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace finalPro
+namespace finalPro.Repositories
 {
-    public class amira
+    public class OrganizationRepo
     {
     }
 }

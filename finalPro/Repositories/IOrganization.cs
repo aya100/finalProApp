@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace finalPro
+namespace finalPro.Repositories
 {
-    public class abomahmoud
+    public class IOrganization
     {
-        // وسلامنا إلى أبو محمود
     }
 }
