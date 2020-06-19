@@ -8,6 +8,7 @@ namespace finalPro.Repositories
 {
     public interface IAdmin
     {
+        //-------------------------------------
         Admin getByName(string name);
         Admin Add(Admin t);
     }

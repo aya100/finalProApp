@@ -33,10 +33,10 @@ namespace finalPro.Repositories
             return _set.ToList();
         }
 
-        public IQueryable<T> getAllFilter()
-        {
-            return _set;
-        }
+        //public IQueryable<T> getAllFilter()
+        //{
+        //    return _set;
+        //}
 
         public T getByID(params object[] id)
         {

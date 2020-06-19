@@ -8,7 +8,7 @@ namespace finalPro.Repositories
     public interface IUser<T>
     {
         List<T> getAll();
-        IQueryable<T> getAllFilter();
+        //IQueryable<T> getAllFilter();
         T getByID(params object[] id);
         T Add(T t);
         bool Update(T t);

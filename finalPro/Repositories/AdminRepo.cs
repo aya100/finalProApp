@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace finalPro.Repositories
 {
+    //-------------------------------------
     public class AdminRepo : IAdmin
     {
         private finalProDBContext ctx;
