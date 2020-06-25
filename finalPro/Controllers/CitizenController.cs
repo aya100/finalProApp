@@ -52,6 +52,7 @@ namespace finalPro.Controllers
 
             db.AddCitizen(c);
             return Created("Citizen Table", c);
+            ////////////////////////////////////////
         }
     }
 }
