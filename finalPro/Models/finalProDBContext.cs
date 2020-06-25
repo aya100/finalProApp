@@ -18,6 +18,7 @@ namespace finalPro.Models
         public virtual DbSet<Admin> Admin { get; set; }
         public virtual DbSet<Citizen> Citizen { get; set; }
         public virtual DbSet<Logs> Logs { get; set; }
+        public virtual DbSet<OrgBranches> OrgBranches { get; set; }
         public virtual DbSet<Organization> Organization { get; set; }
         public virtual DbSet<Requist> Requist { get; set; }
         public virtual DbSet<User> User { get; set; }
@@ -26,8 +27,7 @@ namespace finalPro.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=MAHMOUDHASSAN\\TRESQL;Database=finalProDB;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("name=finalProDB");
             }
         }
 
@@ -116,8 +116,7 @@ namespace finalPro.Models
 
                 entity.Property(e => e.DateTime)
                     .HasColumnName("dateTime")
-                    .IsRowVersion()
-                    .IsConcurrencyToken();
+                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Logs)
@@ -126,29 +125,39 @@ namespace finalPro.Models
                     .HasConstraintName("FK_logs_User");
             });
 
-            modelBuilder.Entity<Organization>(entity =>
+            modelBuilder.Entity<OrgBranches>(entity =>
             {
+                entity.ToTable("Org_branches");
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Lat)
                     .HasColumnName("lat")
-                    .HasColumnType("decimal(18, 0)");
+                    .HasColumnType("decimal(18, 5)");
 
                 entity.Property(e => e.Long)
                     .HasColumnName("long")
-                    .HasColumnType("decimal(18, 0)");
+                    .HasColumnType("decimal(18, 5)");
 
                 entity.Property(e => e.Name)
-                    .IsRequired()
                     .HasColumnName("name")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.Type)
-                    .IsRequired()
-                    .HasColumnName("type")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.OrgId).HasColumnName("orgID");
+
+                entity.HasOne(d => d.Org)
+                    .WithMany(p => p.OrgBranches)
+                    .HasForeignKey(d => d.OrgId)
+                    .HasConstraintName("FK_Org_branches_Organization");
+            });
+
+            modelBuilder.Entity<Organization>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Requist>(entity =>
@@ -218,6 +227,8 @@ namespace finalPro.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.BranchId).HasColumnName("branchID");
+
                 entity.Property(e => e.Email)
                     .HasColumnName("email")
                     .HasMaxLength(50)
@@ -237,8 +248,6 @@ namespace finalPro.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.OrgId).HasColumnName("orgID");
-
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasColumnName("password")
@@ -249,6 +258,12 @@ namespace finalPro.Models
                     .HasColumnName("phone")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Branch)
+                    .WithMany(p => p.User)
+                    .HasForeignKey(d => d.BranchId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_User_Org_branches1");
             });
 
             OnModelCreatingPartial(modelBuilder);

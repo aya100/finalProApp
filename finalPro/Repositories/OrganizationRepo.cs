@@ -7,64 +7,35 @@ using System.Threading.Tasks;
 
 namespace finalPro.Repositories
 {
-    public class organisationRepo : IorganisationRepo
+    public class OrganisationRepo : IorganisationRepo
     {
-        private finalProDBContext db;
-        public organisationRepo(finalProDBContext db)
-        {
-            this.db = db;
-        }
 
-        public List<Organization> getall()
+        private finalProDBContext fp;
+        public OrganisationRepo(finalProDBContext _fb)
         {
-            return db.Organization.ToList();
+            this.fp = _fb;
         }
-        public Organization getbyid(int id)
-        {
-            return db.Organization.Find(id);
-        }
-        public Organization getbyname(string name)
-        {
-            return db.Organization.Find(name);
-        }
-
-        //public Organization getbytype(string name)
+        //public List<Organization> getAllorg()
         //{
-        //    var filtered = db.Organization;
-        //    foreach (var o in filtered)
-        //    {
-        //        filtered = filtered.Where(p => p.Name.Contains());
-        //    }
-        //    return filtered;
+        //    return fp.Organization.ToList();
         //}
-        public void add(Organization o)
-        {
-            db.Organization.Add(o);
-            db.SaveChanges();
-        }
-        public bool PUT(Organization o)
-        {
-            //var updatedOrganisation = db.Organization.Find(id);
-            //updatedOrganisation.Id = o.Id;
-            //updatedOrganisation.Name = o.Name;
-            //updatedOrganisation.Type = o.Type;
-            //updatedOrganisation.Long = o.Long;
-            //updatedOrganisation.Lat = o.Lat;
 
-            //db.SaveChanges();
 
-            db.Organization.Attach(o);
-            db.Entry(o).State = EntityState.Modified;
-            return db.SaveChanges() > 0;
-        }
-        public void delete(int id)
+        public List<string> orgNames()
         {
-            Organization o = db.Organization.Find(id);
-
-            db.Organization.Remove(o);
-            db.SaveChanges();
+            return fp.Organization.Select(a => a.Name).ToList();
         }
+
+        //public List<string> getOrgname(int id)
+        //{
+        //    var na = from a in fp.Organization
+        //             join b in fp.OrgBranches
+        //             on a.Id equals b.OrgId
+        //             where a.Id == id
+        //             select b.Name;
+
+        //    return na.ToList();
+        //}
+
     }
-
-
 }

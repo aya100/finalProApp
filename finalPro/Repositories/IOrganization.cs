@@ -8,14 +8,10 @@ namespace finalPro.Repositories
 {
     public interface IorganisationRepo
     {
-        List<Organization> getall();
+        //List<Organization> getAllorg();
+        List<string> orgNames();
+        //List<string> getOrgname(int id);
 
-        Organization getbyid(int id);
-        Organization getbyname(string name);
-
-        void add(Organization o);
-        bool PUT(Organization o);
-        void delete(int id);
     }
 
 }

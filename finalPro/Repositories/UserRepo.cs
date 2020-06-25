@@ -11,9 +11,9 @@ namespace finalPro.Repositories
     {
         private finalProDBContext ctx;
         private DbSet<T> _set;
-        public UserRepo()
+        public UserRepo(finalProDBContext _ctx)
         {
-            ctx = new finalProDBContext();
+            this.ctx = _ctx;
             _set = ctx.Set<T>();
         }
         public T Add(T t)
@@ -22,8 +22,10 @@ namespace finalPro.Repositories
             return ctx.SaveChanges() > 0 ? t : null;
         }
 
-        public bool Delete(T t)
+        public bool Delete(int id)
         {
+
+           T t= getByID(id);
             _set.Remove(t);
             return ctx.SaveChanges() > 0;
         }
@@ -33,10 +35,11 @@ namespace finalPro.Repositories
             return _set.ToList();
         }
 
-        //public IQueryable<T> getAllFilter()
-        //{
-        //    return _set;
-        //}
+        public List<User> getAllFilter(int id)
+        {
+            var users = ctx.User.Where(u => u.BranchId == id).ToList();
+            return users;
+        }
 
         public T getByID(params object[] id)
         {

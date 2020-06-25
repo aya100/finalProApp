@@ -6,7 +6,7 @@ namespace finalPro.Models
     public partial class Logs
     {
         public int UserId { get; set; }
-        public byte[] DateTime { get; set; }
+        public DateTime DateTime { get; set; }
 
         public virtual User User { get; set; }
     }
