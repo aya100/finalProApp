@@ -36,6 +36,7 @@ namespace finalPro
             services.AddScoped<UserRepo<User>>();
             services.AddScoped<OrganisationRepo>();
             services.AddScoped<Branches>();
+            services.AddScoped<ICitizen,CitizenRepo>();
             services.AddCors();
         }
 
